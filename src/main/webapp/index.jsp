@@ -9,7 +9,6 @@
 %>
 <!DOCTYPE html>
 <html>
-
 <head>
     <title>Online Quiz Application</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,40 +18,37 @@
         }
 
         body {
-            background-image: url('docs/Welcome.jpg');
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
+            background-color: #2e1b3b;
             font-family: Arial, sans-serif;
             margin: 0;
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100vh;
             display: flex;
-            align-items: center;
             justify-content: center;
-            padding: 15px;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
         }
 
-        .content {
-            background: rgba(255, 255, 255, 0.85);
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.3);
-            text-align: center;
-            max-width: 400px;
-            width: 100%;
+        .welcome-img {
+            max-width: 90%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .quiz-box form {
+            display: flex;
+            justify-content: center;
         }
 
         input[type="submit"] {
             background-color: #007bff;
             color: white;
-            padding: 12px 25px;
-            font-size: 18px;
+            padding: 8px 25px;
+            font-size: 16px;
             border: none;
-            border-radius: 8px;
+            border-radius: 6px;
             cursor: pointer;
             transition: background-color 0.3s;
-            width: 100%;
         }
 
         input[type="submit"]:hover {
@@ -60,25 +56,34 @@
         }
 
         @media (max-width: 500px) {
-            input[type="submit"] {
-                font-size: 16px;
-                padding: 10px 20px;
+            body {
+                padding: 15px;
             }
 
-            .content {
-                padding: 20px;
+            .welcome-img {
+                max-width: 100%;
+            }
+
+            input[type="submit"] {
+                font-size: 15px;
+                padding: 8px 20px;
             }
         }
     </style>
 </head>
-
 <body>
-    <div class="content">
+
+    <!-- Welcome Image -->
+    <img src="docs/Welcome.jpg" alt="Welcome to Quiz" class="welcome-img">
+
+    <!-- Start Quiz Button -->
+    <div class="quiz-box">
         <form action="QuizServlet" method="get">
             <input type="submit" value="Start Quiz">
         </form>
     </div>
 
+    <!-- Confetti Effect -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script>
         confetti({
@@ -87,6 +92,6 @@
             origin: { y: 0.6 }
         });
     </script>
-</body>
 
+</body>
 </html>

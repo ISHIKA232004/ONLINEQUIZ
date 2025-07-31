@@ -15,12 +15,13 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            padding: 0 10px;
+            padding: 0;
+            overflow: hidden;
         }
 
         .login-box {
             background: white;
-            padding: 40px;
+            padding: 40px 0; /* reduced horizontal padding */
             border-radius: 12px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
             text-align: center;
@@ -29,13 +30,22 @@
             box-sizing: border-box;
         }
 
+        .login-box h2 {
+            margin-bottom: 20px;
+        }
+
+        .login-box form {
+            padding: 0 30px; 
+        }
+
         .login-box input {
             width: 100%;
-            padding: 12px;
+            padding: 12px 16px;
             margin: 10px 0;
             border: 1px solid #ccc;
             border-radius: 6px;
             font-size: 16px;
+            box-sizing: border-box;
         }
 
         .login-box input[type="submit"] {
@@ -70,7 +80,11 @@
 
         @media (max-width: 400px) {
             .login-box {
-                padding: 30px 20px;
+                padding: 30px 0;
+            }
+
+            .login-box form {
+                padding: 0 20px;
             }
 
             .login-box h2 {
