@@ -1,8 +1,6 @@
-FROM tomcat:9.0-jdk11
+# Use Tomcat 9 bundled with Temurin JDK 21
+FROM tomcat:9.0-jdk21-temurin
 
-# WAR file ko Tomcat webapps folder me copy karo
-COPY OnlineQuizApp.war /usr/local/tomcat/webapps/
-
-EXPOSE 8080
+COPY OnlineQuizApp.war /usr/local/tomcat/webapps/ROOT.war
 
 CMD ["catalina.sh", "run"]
