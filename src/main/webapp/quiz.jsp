@@ -11,35 +11,42 @@
             background-position: center;
             color: white;
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
         }
+
         h2 {
             text-align: center;
+            font-size: 24px;
         }
+
         form {
             background-color: rgba(75, 0, 130, 0.6);
             padding: 20px;
             border-radius: 10px;
-            width: 50%;
-            margin: auto;
+            width: 80%;
+            max-width: 600px;
+            margin: 20px auto;
         }
+
         input[type="submit"] {
             background-color: green;
             color: white;
-            padding: 8px 16px;
+            padding: 10px 20px;
             border: none;
-            border-radius: 4px;
+            border-radius: 5px;
             font-size: 16px;
+            cursor: pointer;
         }
 
-        /* 👇 Updated question and option styling */
         .question {
             font-size: 18px;
             font-weight: normal;
-            color: white;
             margin-bottom: 10px;
         }
+
         .option {
-            margin-left: 20px;
+            margin-left: 10px;
             font-size: 16px;
         }
 
@@ -52,19 +59,44 @@
             font-size: 20px;
             color: black;
             font-weight: bold;
+            background-color: white;
+            padding: 8px 0;
         }
+
         @keyframes scroll-left {
             0% { transform: translateX(100%); }
             100% { transform: translateX(-100%); }
         }
 
-        /* ✅ Timer styling */
         #timer {
             font-size: 18px;
             font-weight: bold;
             color: black;
             text-align: center;
             margin-bottom: 15px;
+            background-color: white;
+            padding: 8px;
+        }
+
+        /* 📱 Responsive Design */
+        @media screen and (max-width: 600px) {
+            form {
+                width: 95%;
+                padding: 15px;
+            }
+
+            .question {
+                font-size: 16px;
+            }
+
+            .option {
+                font-size: 15px;
+            }
+
+            input[type="submit"] {
+                width: 100%;
+                font-size: 16px;
+            }
         }
     </style>
 </head>
@@ -74,14 +106,12 @@
 
     <h2>Online Quiz</h2>
 
-    <!-- Timer Display -->
     <div id="timer">
         Time Left: <span id="time">01:00</span>
     </div>
 
-    <!-- 🛠 Timer JavaScript FIXED -->
     <script>
-        var totalSeconds = 60; 
+        var totalSeconds = 60;
 
         function startTimer() {
             var timer = setInterval(function () {
@@ -105,7 +135,6 @@
         window.onload = startTimer;
     </script>
 
-    <!-- Quiz Form Start -->
     <form id="quizForm" action="SubmitQuizServlet" method="post" onsubmit="return validateQuiz();">
         <%
             ArrayList<Question> questions = (ArrayList<Question>)request.getAttribute("questions");
@@ -113,10 +142,7 @@
                 int i = 1;
                 for(Question q : questions) {
         %>
-            <!-- ✅ Question text -->
             <p class="question"><%= i + ". " + q.getQuestion() %></p>
-
-            <!-- ✅ Options with spacing -->
             <div class="option">
                 <input type="radio" name="q<%=q.getId()%>" value="<%=q.getOption1()%>"> <%=q.getOption1()%><br>
                 <input type="radio" name="q<%=q.getId()%>" value="<%=q.getOption2()%>"> <%=q.getOption2()%><br>
@@ -132,11 +158,9 @@
         <%
             }
         %>
-        
         <input type="submit" value="Submit Quiz">
     </form>
 
-    <!-- Form Validation (All questions answered check) -->
     <script>
         function validateQuiz() {
             var allQuestions = document.querySelectorAll("input[type=radio]");
@@ -172,7 +196,6 @@
         }
     </script>
 
-    <!-- Modal for Unanswered Questions -->
     <div id="myModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color: rgba(0,0,0,0.7); text-align:center; padding-top:200px;">
         <div style="background:white; color:black; display:inline-block; padding:20px; border-radius:10px;">
             <p>Please answer all questions before submitting.</p>

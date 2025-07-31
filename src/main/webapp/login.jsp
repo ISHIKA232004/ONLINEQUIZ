@@ -4,6 +4,8 @@
 <html>
 <head>
     <title>Login - Quiz App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <style>
         body {
             background: linear-gradient(to right, #6dd5fa, #2980b9);
@@ -13,6 +15,7 @@
             align-items: center;
             height: 100vh;
             margin: 0;
+            padding: 0 10px;
         }
 
         .login-box {
@@ -21,15 +24,18 @@
             border-radius: 12px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
             text-align: center;
-            width: 300px;
+            width: 100%;
+            max-width: 350px;
+            box-sizing: border-box;
         }
 
         .login-box input {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             margin: 10px 0;
             border: 1px solid #ccc;
             border-radius: 6px;
+            font-size: 16px;
         }
 
         .login-box input[type="submit"] {
@@ -60,6 +66,16 @@
             color: #2980b9;
             text-decoration: none;
             font-size: 14px;
+        }
+
+        @media (max-width: 400px) {
+            .login-box {
+                padding: 30px 20px;
+            }
+
+            .login-box h2 {
+                font-size: 22px;
+            }
         }
     </style>
 </head>

@@ -3,7 +3,12 @@
 <html>
 <head>
     <title>Register</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             background-image: linear-gradient(to right, #6a11cb, #2575fc);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -12,42 +17,46 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
+            padding: 10px;
         }
 
         .register-box {
             background-color: #ffffff;
-            padding: 40px 30px;
-            border-radius: 10px;
+            padding: 30px 25px;
+            border-radius: 12px;
             box-shadow: 0 0 15px rgba(0,0,0,0.2);
-            width: 350px;
+            width: 100%;
+            max-width: 400px;
             text-align: center;
         }
 
         h2 {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             color: #333;
         }
 
         input[type="text"],
         input[type="email"],
         input[type="password"] {
-            width: 90%;
+            width: 100%;
             padding: 12px;
-            margin: 10px 0;
+            margin: 8px 0;
             border: 1px solid #ccc;
             border-radius: 6px;
+            font-size: 15px;
         }
 
         input[type="submit"] {
             background-color: #2575fc;
             color: white;
-            padding: 12px 20px;
-            margin-top: 15px;
+            padding: 12px;
+            margin-top: 12px;
             border: none;
             border-radius: 6px;
             cursor: pointer;
             font-size: 16px;
             transition: background-color 0.3s;
+            width: 100%;
         }
 
         input[type="submit"]:hover {
@@ -57,11 +66,11 @@
         .message {
             color: red;
             margin-top: 10px;
+            font-size: 14px;
         }
 
         .login-link {
             margin-top: 15px;
-            display: block;
             font-size: 14px;
             color: #333;
         }
@@ -91,9 +100,9 @@
     <div class="register-box">
         <h2>Register</h2>
         <form name="regForm" action="RegisterServlet" method="post" onsubmit="return validateForm();">
-            <input type="text" name="username" placeholder="Username" required><br>
-            <input type="email" name="email" placeholder="Email" required><br>
-            <input type="password" name="password" placeholder="Password" required><br>
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
             <input type="submit" value="Register">
         </form>
 

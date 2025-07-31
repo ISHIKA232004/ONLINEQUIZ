@@ -3,24 +3,30 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Result</title>
     <style>
         body {
             background-color: #000000;
             font-family: Arial, sans-serif;
             text-align: center;
-            padding-top: 100px;
             color: white;
-            overflow: hidden;
             margin: 0;
-            height: 100%;
+            height: 100vh;
+            box-sizing: border-box;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
         h2 {
             font-size: 28px;
+            margin-bottom: 20px;
         }
         p {
             font-size: 20px;
             font-weight: bold;
+            margin: 10px 0;
         }
         .close-button {
             background-color: red;
@@ -29,8 +35,10 @@
             font-size: 16px;
             border: none;
             border-radius: 5px;
-            margin-top: 20px;
+            margin-top: 30px;
             cursor: pointer;
+            width: 80%;
+            max-width: 200px;
         }
     </style>
 </head>
@@ -43,7 +51,11 @@
     if (score != null) {
 %>
     <p>Your Score is: <%= score %> / 10</p>
-    <p>Congratulations!. You passed the quiz.</p>
+    <% if(score >= 5) { %>
+        <p>🎉 Congratulations! You passed the quiz.</p>
+    <% } else { %>
+        <p>❌ You did not pass. Better luck next time!</p>
+    <% } %>
 <%
     } else {
 %>
