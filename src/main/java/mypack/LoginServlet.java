@@ -14,7 +14,11 @@ public class LoginServlet extends HttpServlet {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/student","root","password");
+         // Localhost DB (for Eclipse only)
+         // Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/student","root","password");
+
+         // Remote DB (for Render/live server)
+         Connection con = DriverManager.getConnection("jdbc:mysql://sql7.freesqldatabase.com:3306/sql7793099", "sql7793099", "9YLUCexPD8");
             PreparedStatement ps = con.prepareStatement("SELECT * FROM users WHERE username=? AND password=?");
             ps.setString(1, user);
             ps.setString(2, pass);
