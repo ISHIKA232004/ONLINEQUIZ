@@ -18,12 +18,12 @@ public class QuizServlet extends HttpServlet {
         	System.out.println("Loading DB driver...");
             Class.forName("com.mysql.cj.jdbc.Driver");
             System.out.println("Driver loaded.");
-            //Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/student", "root", "password");
-            Connection con = DriverManager.getConnection(
-            	    "jdbc:mysql://containers-us-west-123.railway.app:6543/student",
-            	    "root",
-            	    "password"
-            	);
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/student", "root", "password");
+//            Connection con = DriverManager.getConnection(
+//            	    "jdbc:mysql://containers-us-west-123.railway.app:6543/student",
+//            	    "root",
+//            	    "password"
+//            	);
 
             System.out.println("DB connected.");
             Statement st = con.createStatement();
