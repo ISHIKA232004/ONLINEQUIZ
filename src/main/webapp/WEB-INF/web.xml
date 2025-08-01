@@ -3,6 +3,7 @@
         <welcome-file>login.jsp</welcome-file>
     </welcome-file-list>
 
+    <!-- LoginServlet -->
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>mypack.LoginServlet</servlet-class>
@@ -12,6 +13,7 @@
         <url-pattern>/LoginServlet</url-pattern>
     </servlet-mapping>
 
+    <!-- RegisterServlet -->
     <servlet>
         <servlet-name>RegisterServlet</servlet-name>
         <servlet-class>mypack.RegisterServlet</servlet-class>
@@ -21,6 +23,17 @@
         <url-pattern>/RegisterServlet</url-pattern>
     </servlet-mapping>
 
+    <!-- QuizServlet -->
+    <servlet>
+        <servlet-name>QuizServlet</servlet-name>
+        <servlet-class>mypack.QuizServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>QuizServlet</servlet-name>
+        <url-pattern>/QuizServlet</url-pattern>
+    </servlet-mapping>
+
+    <!-- SubmitQuizServlet -->
     <servlet>
         <servlet-name>SubmitQuizServlet</servlet-name>
         <servlet-class>mypack.SubmitQuizServlet</servlet-class>

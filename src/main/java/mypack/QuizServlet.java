@@ -19,7 +19,12 @@ public class QuizServlet extends HttpServlet {
             Class.forName("com.mysql.cj.jdbc.Driver");
             System.out.println("Driver loaded.");
             //Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/student", "root", "password");
-            Connection con = DriverManager.getConnection("jdbc:mysql://sql7.freesqldatabase.com:3306/sql7793099", "sql7793099", "9YLUCexPD8");
+            Connection con = DriverManager.getConnection(
+            	    "jdbc:mysql://containers-us-west-123.railway.app:6543/student",
+            	    "root",
+            	    "password"
+            	);
+
             System.out.println("DB connected.");
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery("SELECT * FROM question");
