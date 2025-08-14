@@ -97,12 +97,18 @@
     </script>
 </head>
 <body>
+  <body>
     <div class="register-box">
         <h2>Register</h2>
         <form name="regForm" action="RegisterServlet" method="post" onsubmit="return validateForm();">
             <input type="text" name="username" placeholder="Username" required>
             <input type="email" name="email" placeholder="Email" required>
             <input type="password" name="password" placeholder="Password" required>
+            
+            <p style="color: black; font-size: 13px; margin-top: 10px;">
+                Note: You can take the quiz only once.
+            </p>
+            
             <input type="submit" value="Register">
         </form>
 
@@ -114,5 +120,7 @@
             Already have an account? <a href="login.jsp">Login here</a>
         </div>
     </div>
+</body>
+  
 </body>
 </html>

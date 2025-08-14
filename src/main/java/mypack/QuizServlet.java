@@ -26,7 +26,7 @@ public class QuizServlet extends HttpServlet {
 //            	);
 
             System.out.println("DB connected.");
-            Statement st = con.createStatement();
+            Statement st = con.createStatement(); //This is a simple, fixed query — no user input, no parameters.
             ResultSet rs = st.executeQuery("SELECT * FROM question");
 
             while(rs.next()) {

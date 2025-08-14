@@ -78,7 +78,6 @@
             padding: 8px;
         }
 
-        /* 📱 Responsive Design */
         @media screen and (max-width: 600px) {
             form {
                 width: 95%;

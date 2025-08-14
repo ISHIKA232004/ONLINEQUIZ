@@ -52,9 +52,9 @@
 %>
     <p>Your Score is: <%= score %> / 10</p>
     <% if(score >= 5) { %>
-        <p>🎉 Congratulations! You passed the quiz.</p>
+        <p>Congratulations! You passed the quiz.</p>
     <% } else { %>
-        <p>❌ You did not pass. Better luck next time!</p>
+        <p>You did not pass. Better luck next time!</p>
     <% } %>
 <%
     } else {
@@ -64,7 +64,7 @@
     }
 %>
 
-<form action="index.jsp" method="get">
+<form action="login.jsp" method="get">
     <input type="submit" value="Close" class="close-button">
 </form>
 

@@ -16,13 +16,12 @@ public class RegisterServlet extends HttpServlet {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/student","root","password");
-//
+
 //            Connection con = DriverManager.getConnection(
 //            	    "jdbc:mysql://containers-us-west-123.railway.app:6543/student",
 //            	    "root",
 //            	    "password"
 //            	);
-            // Check if user already exists
             PreparedStatement check = con.prepareStatement("SELECT * FROM users WHERE username=?");
             check.setString(1, user);
             ResultSet rs = check.executeQuery();
@@ -36,7 +35,6 @@ public class RegisterServlet extends HttpServlet {
                 ps.setString(3, pass);
                 ps.executeUpdate();
 
-                // ✅ Directly log the user in after registration
                 HttpSession session = request.getSession();
                 session.setAttribute("username", user);
                 response.sendRedirect("index.jsp");

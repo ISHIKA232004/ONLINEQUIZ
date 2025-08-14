@@ -73,17 +73,14 @@
 </head>
 <body>
 
-    <!-- Welcome Image -->
     <img src="docs/Welcome.jpg" alt="Welcome to Quiz" class="welcome-img">
 
-    <!-- Start Quiz Button -->
     <div class="quiz-box">
         <form action="QuizServlet" method="get">
             <input type="submit" value="Start Quiz">
         </form>
     </div>
 
-    <!-- Confetti Effect -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script>
         confetti({

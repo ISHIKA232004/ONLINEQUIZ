@@ -21,7 +21,7 @@
 
         .login-box {
             background: white;
-            padding: 40px 0; /* reduced horizontal padding */
+            padding: 40px 0; 
             border-radius: 12px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
             text-align: center;
@@ -94,21 +94,34 @@
     </style>
 </head>
 <body>
+	<div class="login-box">
+        <h2>Login</h2>
+        <form action="LoginServlet" method="post">
+            <input type="text" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="submit" value="Login">
+        </form>
 
-<div class="login-box">
-    <h2>Login</h2>
-    <form action="LoginServlet" method="post">
-        <input type="text" name="username" placeholder="Username" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <input type="submit" value="Login">
-    </form>
+        <div class="msg">
+            <%
+                String error = request.getParameter("error");
+                if ("invalid".equals(error)) {
+            %>
+                <p style="color:red;">Invalid email or password.</p>
+            <%
+                } else if ("attempted".equals(request.getParameter("attempted"))) {
+            %>
+                <p style="color:red;">You have already attempted the quiz.</p>
+            <%
+                } else if ("exception".equals(error)) {
+            %>
+                <p style="color:red;">Something went wrong.</p>
+            <%
+                }
+            %>
+        </div>
 
-    <div class="msg <%= request.getParameter("error") != null ? "error" : "success" %>">
-        <%= request.getParameter("error") != null ? request.getParameter("error") : request.getParameter("msg") != null ? request.getParameter("msg") : "" %>
+        <p><a href="register.jsp">New user? Register here</a></p>
     </div>
-
-    <p><a href="register.jsp">New user? Register here</a></p>
-</div>
-
 </body>
 </html>

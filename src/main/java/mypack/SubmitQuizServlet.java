@@ -36,22 +36,12 @@ public class SubmitQuizServlet extends HttpServlet {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/student", "root", "password");
 
-            // Check if user already attempted
             PreparedStatement checkStmt = con.prepareStatement("SELECT score FROM result WHERE username = ?");
             checkStmt.setString(1, username);
             ResultSet rs = checkStmt.executeQuery();
 
             if (rs.next()) {
-                int previousScore = rs.getInt("score");
-                if (previousScore > 5) {
-                    alreadyPassed = true;
-                } else if (score > previousScore) {
-                    PreparedStatement updateStmt = con.prepareStatement("UPDATE result SET score = ? WHERE username = ?");
-                    updateStmt.setInt(1, score);
-                    updateStmt.setString(2, username);
-                    updateStmt.executeUpdate();
-                    updateStmt.close();
-                }
+                alreadyPassed = true;
             } else {
                 PreparedStatement insertStmt = con.prepareStatement("INSERT INTO result (username, score) VALUES (?, ?)");
                 insertStmt.setString(1, username);

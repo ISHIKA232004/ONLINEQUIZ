@@ -8,39 +8,53 @@ import java.sql.*;
 
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String user = request.getParameter("username");
-        String pass = request.getParameter("password");
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-         // Localhost DB (for Eclipse only)
-         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/student","root","password");
+		String email = request.getParameter("email");
+		String password = request.getParameter("password");
 
-//         Connection con = DriverManager.getConnection(
-//         	    "jdbc:mysql://containers-us-west-123.railway.app:6543/student",
-//         	    "root",
-//         	    "password"
-//         	);
-         
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM users WHERE username=? AND password=?");
-            ps.setString(1, user);
-            ps.setString(2, pass);
-            ResultSet rs = ps.executeQuery();
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/student", "ishika232004", "ishika123");
 
-            if(rs.next()){
-                HttpSession session = request.getSession(); // ✅ Ensures session starts
-                session.setAttribute("username", user);     // ✅ Stores user in session
-                response.sendRedirect("index.jsp");         // ✅ Goes to quiz page
-            } else {
-                response.sendRedirect("login.jsp?error=Invalid Credentials");
-            }
+			PreparedStatement ps = con.prepareStatement("SELECT username FROM users WHERE email=? AND password=?");
+			ps.setString(1, email);
+			ps.setString(2, password);
+			ResultSet rs = ps.executeQuery();
 
-            rs.close();
-            ps.close();
-            con.close();
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-    }
+			if (rs.next()) {
+				String username = rs.getString("username");
+
+				// Check if already attempted quiz from result table
+				PreparedStatement ps2 = con.prepareStatement("SELECT score FROM result WHERE username=?");
+				ps2.setString(1, username);
+				ResultSet rs2 = ps2.executeQuery();
+
+				if (rs2.next()) {
+					int score = rs2.getInt("score");
+					if (score > 0) {
+						// Already attempted
+						response.sendRedirect("login.jsp?attempted=true");
+					} else {
+						// Allow login
+						HttpSession session = request.getSession();
+						session.setAttribute("email", email);
+						response.sendRedirect("index.jsp");
+					}
+				} else {
+					// First time login, no score yet
+					HttpSession session = request.getSession();
+					session.setAttribute("email", email);
+					response.sendRedirect("index.jsp");
+				}
+
+			} else {
+				response.sendRedirect("login.jsp?error=invalid");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.sendRedirect("login.jsp?error=exception");
+		}
+	}
 }
