@@ -105,9 +105,6 @@
             <input type="email" name="email" placeholder="Email" required>
             <input type="password" name="password" placeholder="Password" required>
             
-            <p style="color: black; font-size: 13px; margin-top: 10px;">
-                Note: You can take the quiz only once.
-            </p>
             
             <input type="submit" value="Register">
         </form>

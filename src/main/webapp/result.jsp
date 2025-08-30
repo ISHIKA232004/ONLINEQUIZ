@@ -50,7 +50,7 @@
     Integer score = (Integer) request.getAttribute("score");
     if (score != null) {
 %>
-    <p>Your Score is: <%= score %> / 10</p>
+    <p>Your Score is: <%= score %> / 20</p>
     <% if(score >= 5) { %>
         <p>Congratulations! You passed the quiz.</p>
     <% } else { %>

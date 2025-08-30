@@ -3,55 +3,66 @@ package mypack;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
-
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
 @WebServlet("/QuizServlet")
 public class QuizServlet extends HttpServlet {
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("QuizServlet called"); 
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        HttpSession session = request.getSession();
         ArrayList<Question> questions = new ArrayList<>();
 
+        String selectedLang = request.getParameter("language");
+
+        if (selectedLang != null && !selectedLang.trim().isEmpty()) {
+            session.setAttribute("language", selectedLang);
+        } else {
+            selectedLang = (String) session.getAttribute("language");
+        }
+
         try {
-        	System.out.println("Loading DB driver...");
             Class.forName("com.mysql.cj.jdbc.Driver");
-            System.out.println("Driver loaded.");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/student", "root", "password");
-//            Connection con = DriverManager.getConnection(
-//            	    "jdbc:mysql://containers-us-west-123.railway.app:6543/student",
-//            	    "root",
-//            	    "password"
-//            	);
+            Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/student", "root", "password"
+            );
 
-            System.out.println("DB connected.");
-            Statement st = con.createStatement(); //This is a simple, fixed query — no user input, no parameters.
-            ResultSet rs = st.executeQuery("SELECT * FROM question");
+            PreparedStatement ps;
+            if (selectedLang != null && !selectedLang.trim().isEmpty()) {
+                ps = con.prepareStatement("SELECT * FROM question WHERE language = ? LIMIT 20");
+                ps.setString(1, selectedLang);
+            } else {
+                ps = con.prepareStatement("SELECT * FROM question LIMIT 20");
+            }
 
-            while(rs.next()) {
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
                 Question q = new Question(
-                    rs.getInt("Id"),
-                    rs.getString("Question"),
-                    rs.getString("Option1"),
-                    rs.getString("Option2"),
-                    rs.getString("Option3"),
-                    rs.getString("Option4"),
-                    rs.getString("Correct_ans")
+                        rs.getInt("Id"),
+                        rs.getString("Question"),
+                        rs.getString("Option1"),
+                        rs.getString("Option2"),
+                        rs.getString("Option3"),
+                        rs.getString("Option4"),
+                        rs.getString("Correct_ans")
                 );
                 questions.add(q);
             }
 
-            System.out.println("Questions fetched: " + questions.size()); 
+            rs.close();
+            ps.close();
             con.close();
-        } 
-        catch(Exception e) {
-            System.out.println("DB Error: " + e);
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         request.setAttribute("questions", questions);
-        request.getSession().setAttribute("questions", questions);
+        session.setAttribute("questions", questions);
+
         RequestDispatcher rd = request.getRequestDispatcher("quiz.jsp");
         rd.forward(request, response);
     }

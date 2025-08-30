@@ -8,12 +8,18 @@ import javax.servlet.http.*;
 
 public class SubmitQuizServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+            throws ServletException, IOException {
 
         HttpSession session = request.getSession();
         String username = (String) session.getAttribute("username");
+        String language = (String) session.getAttribute("language"); 
         @SuppressWarnings("unchecked")
         ArrayList<Question> questions = (ArrayList<Question>) session.getAttribute("questions");
+
+        if(username == null || language == null) {
+            response.sendRedirect("login.jsp"); // session expired or not set
+            return;
+        }
 
         int score = 0;
 
@@ -30,36 +36,40 @@ public class SubmitQuizServlet extends HttpServlet {
             }
         }
 
-        boolean alreadyPassed = false;
-
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/student", "root", "password");
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/student", "root", "password")) {
 
-            PreparedStatement checkStmt = con.prepareStatement("SELECT score FROM result WHERE username = ?");
-            checkStmt.setString(1, username);
-            ResultSet rs = checkStmt.executeQuery();
-
-            if (rs.next()) {
-                alreadyPassed = true;
-            } else {
-                PreparedStatement insertStmt = con.prepareStatement("INSERT INTO result (username, score) VALUES (?, ?)");
-                insertStmt.setString(1, username);
-                insertStmt.setInt(2, score);
-                insertStmt.executeUpdate();
-                insertStmt.close();
+                try (PreparedStatement checkStmt = con.prepareStatement("SELECT score FROM result WHERE username = ? AND language = ?")) {
+                    checkStmt.setString(1, username);
+                    checkStmt.setString(2, language);
+                    try (ResultSet rs = checkStmt.executeQuery()) {
+                        if (rs.next()) {
+                            int oldScore = rs.getInt("score");
+                            if (score > oldScore) {
+                                try (PreparedStatement updateStmt = con.prepareStatement("UPDATE result SET score=? WHERE username=? AND language=?")) {
+                                    updateStmt.setInt(1, score);
+                                    updateStmt.setString(2, username);
+                                    updateStmt.setString(3, language);
+                                    updateStmt.executeUpdate();
+                                }
+                            }
+                        } else {
+                            try (PreparedStatement insertStmt = con.prepareStatement("INSERT INTO result(username, score, language) VALUES (?, ?, ?)")) {
+                                insertStmt.setString(1, username);
+                                insertStmt.setInt(2, score);
+                                insertStmt.setString(3, language);
+                                insertStmt.executeUpdate();
+                            }
+                        }
+                    }
+                }
             }
-
-            rs.close();
-            checkStmt.close();
-            con.close();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         request.setAttribute("score", score);
-        request.setAttribute("alreadyPassed", alreadyPassed);
         RequestDispatcher rd = request.getRequestDispatcher("result.jsp");
         rd.forward(request, response);
     }

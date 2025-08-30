@@ -1,50 +1,39 @@
 package mypack;
 
-import java.io.*;
-import javax.servlet.*;
-import javax.servlet.http.*;
+import java.io.IOException;
 import java.sql.*;
+import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.*;
 
 @WebServlet("/RegisterServlet")
 public class RegisterServlet extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String user = request.getParameter("username");
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String name = request.getParameter("username");
         String email = request.getParameter("email");
-        String pass = request.getParameter("password");
+        String password = request.getParameter("password");
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/student","root","password");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/student", "root", "password");
 
-//            Connection con = DriverManager.getConnection(
-//            	    "jdbc:mysql://containers-us-west-123.railway.app:6543/student",
-//            	    "root",
-//            	    "password"
-//            	);
-            PreparedStatement check = con.prepareStatement("SELECT * FROM users WHERE username=?");
-            check.setString(1, user);
-            ResultSet rs = check.executeQuery();
+            PreparedStatement ps = con.prepareStatement("INSERT INTO users(username,email,password) VALUES(?,?,?)");
+            ps.setString(1, name);
+            ps.setString(2, email);
+            ps.setString(3, password);
 
-            if(rs.next()) {
-                response.sendRedirect("login.jsp?msg=Username already exists");
-            } else {
-                PreparedStatement ps = con.prepareStatement("INSERT INTO users(username,email,password) VALUES(?,?,?)");
-                ps.setString(1, user);
-                ps.setString(2, email);
-                ps.setString(3, pass);
-                ps.executeUpdate();
-
-                HttpSession session = request.getSession();
-                session.setAttribute("username", user);
-                response.sendRedirect("index.jsp");
-            }
-
-            rs.close();
-            check.close();
+            int i = ps.executeUpdate();
             con.close();
-        } catch(Exception e) {
+
+            if (i > 0) {
+                response.sendRedirect("login.jsp?success=registered");
+            } else {
+                response.sendRedirect("register.jsp?error=failed");
+            }
+        } catch (Exception e) {
             e.printStackTrace();
+            response.sendRedirect("register.jsp?error=exception");
         }
     }
 }
